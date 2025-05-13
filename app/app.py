@@ -3,25 +3,31 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import joblib
+import shap
 
 # Load your pipeline
 model = joblib.load("models/logreg_pipeline.pkl")
 
 # Replace with your actual final features
 final_features = [
-    'mean_radius', 
-    'mean_texture', 
-    'mean_smoothness', 
-    'mean_symmetry', 
-    'mean_fractal_dimension'
+    'area_error', 
+    'worst_area', 
+    'worst_texture', 
+    'worst-radius', 
+    'worst_concavity'
 ]
 
 # Create FastAPI app
 app = FastAPI(
     title="Breast Cancer Predictor",
-    description="Predicts if a tumor is malignant or benign based on diagnostic features.",
+    description="Predicts if a tumor is malignant or benign based on histological measurements.",
     version="1.0.0"
 )
+
+# Init SHAP explainer
+explainer = shap.Explainer(model.named_steps['classifier'])
+shap_input = model.named_steps['preprocessor'].transform(input_df)
+
 
 # Define the data model
 class PatientData(BaseModel):
@@ -39,7 +45,11 @@ def predict(data: PatientData):
     
     # Make prediction
     pred = model.predict(input_df)[0]
-    proba = model.predict_proba(input_df)[0]
+    proba = model.predict_proba(input_df)[0].tolist()
+
+    # SHAP values
+    shap_values = explainer(input_df)
+    feature_importance = dict(zip(final_features, shap_values.values[0].tolist()))
     
     return {
         "prediction": int(pred),
@@ -47,5 +57,6 @@ def predict(data: PatientData):
         "probabilities": {
             "Benign": round(proba[0], 4),
             "Malignant": round(proba[1], 4)
-        }
+        },
+        "shap_values": feature_importance
     }
