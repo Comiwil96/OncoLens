@@ -20,10 +20,10 @@ var_thresh = VarianceThreshold(threshold=0.01)
 
 # Build full pipeline
 pipeline = Pipeline([
-    ('scaler', scaler),
     ('variance', var_thresh),
-    ('rfe', rfe),
-    ('classifier', logreg)
+    ('scaler', scaler),
+    ('classifier', logreg),
+    ('rfe', rfe)
 ])
 
 # Fit pipeline to training data

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import joblib
+from joblib import dump
 import shap
 
 # Load your pipeline
@@ -39,7 +40,7 @@ def predict(data: PatientData):
     global explainer
 
     # Convert input to DataFrame
-    input_df = pd.DataFrame([data.dict()])[final_features]
+    input_df = pd.DataFrame([data.model_dump()])[final_features]
 
     # Make prediction
     pred = model.predict(input_df)[0]
