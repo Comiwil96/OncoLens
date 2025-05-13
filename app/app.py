@@ -1,4 +1,3 @@
-# app.py
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
@@ -13,7 +12,7 @@ final_features = [
     'area_error', 
     'worst_area', 
     'worst_texture', 
-    'worst-radius', 
+    'worst_radius', 
     'worst_concavity'
 ]
 
@@ -24,11 +23,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Init SHAP explainer
-explainer = shap.Explainer(model.named_steps['classifier'])
-shap_input = model.named_steps['preprocessor'].transform(input_df)
-
-
 # Define the data model
 class PatientData(BaseModel):
     area_error: float
@@ -37,20 +31,33 @@ class PatientData(BaseModel):
     worst_radius: float
     worst_concavity: float
 
-# Predict endpoint
+# Initialize SHAP explainer — done lazily on first request
+explainer = None
+
 @app.post("/predict")
 def predict(data: PatientData):
+    global explainer
+
     # Convert input to DataFrame
     input_df = pd.DataFrame([data.dict()])[final_features]
-    
+
     # Make prediction
     pred = model.predict(input_df)[0]
     proba = model.predict_proba(input_df)[0].tolist()
 
     # SHAP values
-    shap_values = explainer(input_df)
+    if explainer is None:
+        explainer = shap.Explainer(model.named_steps['classifier'], 
+                                   model.named_steps['preprocessor'].transform(
+                                       pd.DataFrame([data.dict()])[final_features]
+                                   ))
+
+    shap_values = explainer(
+        model.named_steps['preprocessor'].transform(input_df)
+    )
+
     feature_importance = dict(zip(final_features, shap_values.values[0].tolist()))
-    
+
     return {
         "prediction": int(pred),
         "prediction_label": "Malignant" if pred == 1 else "Benign",
