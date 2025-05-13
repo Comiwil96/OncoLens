@@ -3,27 +3,70 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environment
+# Virtual environments
+.venv/
 venv/
 env/
+ENV/
+env.bak/
+venv.bak/
 
 # VSCode settings
 .vscode/
 
+# PyCharm settings
+.idea/
+
 # Jupyter Notebook checkpoints
-.ipynb_checkpoints
+.ipynb_checkpoints/
 
-# Data files (optional — uncomment if needed)
-# *.csv
-# *.tsv
-# *.json
-# *.xlsx
-
-# Logs
-*.log
+# Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+*.manifest
+*.spec
 
 # Environment variables
 .env
+.env.*
 
-# MacOS junk
+# Logs and local databases
+*.log
+*.sqlite3
+*.db
+
+# Data files (feel free to uncomment/add specifics)
+*.csv
+*.tsv
+*.json
+*.xlsx
+*.h5
+*.parquet
+*.pkl
+
+# System files
 .DS_Store
+Thumbs.db
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# mypy, coverage, pytest, etc.
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.pytest_cache/
+.cache/
+.noseids
+
+# Jupyter runtime
+~/.local/share/jupyter/runtime/
+
+# IPython history
+profile_default/
+ipython_config.py
