@@ -1,14 +1,68 @@
-# Classification Techniques Comparison – Breast Cancer Dataset
+OncoLens - Breast Cancer Predictor
 
-## 🧠 Objective
-This notebook showcases three foundational classification algorithms applied to real-world biomedical data:
+An end-to-end machine learning project that predicts whether a breast tumor is malignant or benign using histological measurements. This project showcases real-world ML development from exploratory analysis through model optimization and explainability, built using Python, scikit-learn, and SHAP.
+
+## Objective
+The goal of this dataset is to explore, train, evaluate and optimize a breast cancer predictor algorithm based on the following models:
 
 - **K-Nearest Neighbors (KNN)**
 - **Logistic Regression**
 - **Decision Tree Classifier**
 
-Each model is trained, evaluated, and compared based on its ability to classify malignant vs. benign tumors using Scikit-Learn's Breast Cancer dataset.
+Each model will be trained, evaluated, and compared based on its ability to classify malignant vs. benign tumors using Scikit-Learn's Breast Cancer dataset. The best performing initial model will be chosen for optimization by means of feature engineering and regularization. The model will then be exported and deployed through a basic UI app.
 
+---
+
+## Features
+
+- Exploratory Data Analysis (EDA)
+- Feature Engineering (Correlation filtering, Variance Threshold, RFE)
+- Multiple ML Models: Logistic Regression, KNN, Decision Tree
+- Hyperparameter Optimization
+- SHAP Explainability
+- Modular Codebase with `utils.py` and `train.py`
+- Optional Streamlit app for interactive prediction
+- Cloud-ready model export and deployment (joblib + containerization)
+
+---
+
+## Project Structure
+breast-cancer-predictor/
+|----app/ # Deployment (Streamlit or Flask app)
+|----data/ # Raw and processed datasets
+|----models/ # Saved model + scaler artifacts
+|----notebooks/ # EDA, prototyping, optimization
+|----outputs/ # Visuals, logs, reports
+|----src/ # Reusable code (utils, training scripts)
+|----requirements.txt # Project Dependencies
+|---- README.md # This file
+
+---
+
+## Installation
+```bash
+# Clone the repo
+git clone https://github.com/yourusername/breast-cancer-predictor.git
+cd breast-cancer-predictor
+
+# Create virtual env (optional but recommended)
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+---
+
+## Usage
+
+### Train the model
+```bash
+python src/train.py
+
+### Run the App (optional)
+```bash
+streamlit run app/app.y
 ---
 
 ## 📊 Dataset
@@ -18,35 +72,33 @@ Each model is trained, evaluated, and compared based on its ability to classify 
 
 ---
 
-## ✅ Skills Demonstrated
-- Data loading and preprocessing (handling nulls, scaling, splitting)
-- Supervised learning with scikit-learn
-- Model comparison using classification metrics
-- Visualization of confusion matrices and decision boundaries
-- Practical interpretation of model trade-offs in biomedical contexts
+## Model Performance
+Logistic Regression (Post-Optimization)
+- Validation Accuracy: 94%
+- Test Accuracy: 96%
+Features Used: 5 (selected via Variance Threshold + RFE)
 
 ---
 
-## 📘 Notebook Contents
-- `breast_cancer_classification_models.ipynb`:
-  - Quick EDA and preprocessing
-  - KNN, Logistic Regression, and Decision Tree training
-  - Comparative evaluation
-  - Observations on model performance and real-world implications
+## Explainability
+SHAP (SHapley Additive exPlanations) is used to interpret model predictions and understand feature impact on classification outcomes
 
 ---
 
-## 🏁 Results Summary (placeholder)
-| Model               | Accuracy | Precision | Recall | F1 Score |
-|--------------------|----------|-----------|--------|----------|
-| Logistic Regression| 0.95     | 0.94      | 0.96   | 0.95     |
-| Decision Tree      | 0.92     | 0.91      | 0.93   | 0.92     |
-| KNN                | 0.93     | 0.92      | 0.93   | 0.92     |
-
-> Logistic Regression continues to punch above its weight. KNN and Decision Trees give solid, explainable backup options.
+## Deployment
+The trained model is serialized using joblib and can be deployed via:
+- Streamlit for interactive browser-based use
+- Flask API with containerization (Docker) for integration into healthcare systems
+Cloud platforms(e.g., AWS Lambda, GCP Cloud Run) for production
 
 ---
 
-## 🚀 Future Add-ons
-- Try Random Forest or XGBoost for more advanced ensemble comparisons
-- Deploy a Streamlit app for interactive model selection
+## Author
+
+Cody Wilson (Intuitive Healthcare Technologies)
+Built with vision, hustle, and just enough caffeine to hit 97% accuracy.
+
+---
+
+## License
+This project is open-source and available under the MIT license
