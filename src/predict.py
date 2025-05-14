@@ -1,6 +1,7 @@
 import pandas as pd
 import joblib
 
+
 # 1. Load the saved pipeline
 pipeline = joblib.load("/Users/CodyWilson/Desktop/breast-cancer-predictor/models/logreg_pipeline.pkl")
 
