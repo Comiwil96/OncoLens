@@ -95,7 +95,7 @@ Cloud platforms(e.g., AWS Lambda, GCP Cloud Run) for production
 
 ## Author
 
-Cody Wilson (Intuitive Healthcare Technologies)
+Cody Wilson 
 Built with vision, hustle, and just enough caffeine to hit 97% accuracy.
 
 ---
